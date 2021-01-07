@@ -34,27 +34,28 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _status = "londing";
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   /// we just have to call this once 
-  //   Firebase.initializeApp().whenComplete(() {
-  //     print("Completed");
-  //     setState(() {});
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
 
-  // /// `SignIn anonymously`
-  // void _signInAnon() async {
-  //   setState(() => _status = "signing In......");
+    /// we just have to call this once
+    Firebase.initializeApp().whenComplete(() {
+      print("Completed");
+      setState(() {});
+    });
+  }
 
-  //   var user = (await _auth.signInAnonymously()).user;
+  /// `SignIn anonymously`
+  void _signInAnon() async {
+    setState(() => _status = "signing In......");
 
-  //   if (user != null && user.isAnonymous == true)
-  //     setState(() => _status = "Signed in Anonymously.");
-  //   else
-  //     setState(() => _status = "Failed to SignIn as Anonymously.");
-  // }
+    var user = (await _auth.signInAnonymously()).user;
+
+    if (user != null && user.isAnonymous == true)
+      setState(() => _status = "Signed in Anonymously.");
+    else
+      setState(() => _status = "Failed to SignIn as Anonymously.");
+  }
 
   ///`SignOut`
   void _signOut() async {
@@ -83,16 +84,14 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 RaisedButton(
                   padding: EdgeInsets.all(4),
-                  onPressed:
-                  // _signInAnon,
+                  onPressed: _signInAnon,
                   child: Text("SignIn Anon"),
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 RaisedButton(
-                  onPressed: 
-                  // _signOut,
+                  onPressed: _signOut,
                   child: Text("Sign off"),
                 ),
               ],
