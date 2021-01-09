@@ -6,10 +6,24 @@ To get hasKey
 ```
 keytool -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
 ```
-[Google SignIn](https://developers.google.com/android/guides/client-auth)
+[How to use Google SignIn](https://developers.google.com/android/guides/client-auth)
+
+[Google sign In package](https://pub.dev/packages/google_sign_in)
+
+ [ Check .? sound null safety](https://dart.dev/null-safety)
+
+ If you error while getting user information like this
+ ```
+ People API 403 response: {
+        "error": {
+          "code": 403,
+          "message": "People API has not been used in project 745651411956 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/people.googleapis.com/overview?project=xxxxxx then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.",
+          "status": "PERMISSION_DENIED",
+ ```
+just follow the given link or [visit here]( https://console.developers.google.com/apis/api/people.googleapis.com/)
 
 
-
+-----
 ## Getting Started
 
 This project is a starting point for a Flutter application.
