@@ -9,5 +9,6 @@ enum UploadType {
   file,
 
   /// Clears any tasks from the list.
+  /// next day
   clear,
 }
