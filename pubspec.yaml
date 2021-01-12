@@ -29,6 +29,9 @@ dependencies:
   firebase_storage: ^5.2.0
   google_sign_in: ^4.5.9
   http: ^0.12.2
+  image_gallery_saver: ^1.6.7
+  image_picker: ^0.6.7+21
+  path: ^1.7.0
 
 dev_dependencies:
   flutter_test:

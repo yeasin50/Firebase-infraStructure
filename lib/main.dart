@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:FirebaseApp/auth.dart';
+import 'package:FirebaseApp/storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -94,68 +95,73 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: 200,
-              child: Text(_status),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(4),
-                  onPressed: signInAnon,
-                  child: Text("SignIn Anon"),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                RaisedButton(
-                  onPressed: _signOut,
-                  child: Text("Sign off"),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(4),
-                  onPressed: _handleGoogleSignIn,
-                  child: Text("Google SignIn"),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                RaisedButton(
-                  onPressed: _handleGoogleSignOut,
-                  child: Text("Google Sign out"),
-                ),
-              ],
-            ),
+      // body: builAuthentication(),
+      body: TaskManager(),
+    );
+  }
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  padding: EdgeInsets.all(4),
-                  onPressed: null,
-                  child: Text("Up load text"),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                RaisedButton(
-                  onPressed: null,
-                  child: Text("Download Text"),
-                ),
-              ],
-            ),
-          ],
-        ),
+  Center builAuthentication() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            height: 200,
+            child: Text(_status),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                padding: EdgeInsets.all(4),
+                onPressed: signInAnon,
+                child: Text("SignIn Anon"),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              RaisedButton(
+                onPressed: _signOut,
+                child: Text("Sign off"),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                padding: EdgeInsets.all(4),
+                onPressed: _handleGoogleSignIn,
+                child: Text("Google SignIn"),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              RaisedButton(
+                onPressed: _handleGoogleSignOut,
+                child: Text("Google Sign out"),
+              ),
+            ],
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                padding: EdgeInsets.all(4),
+                onPressed: null,
+                child: Text("Up load text"),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              RaisedButton(
+                onPressed: null,
+                child: Text("Download Text"),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
