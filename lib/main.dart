@@ -1,15 +1,32 @@
 import 'dart:developer';
 import 'package:FirebaseApp/auth.dart';
-import 'package:FirebaseApp/storage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-void main() {
-  runApp(MyApp());
+import 'realTimeDB.dart';
+
+void main() async {
+  //TODO:: init db, storage and firebaseOption or initState
+  WidgetsFlutterBinding.ensureInitialized();
+  // from jnson and consol +=setting>> cloud>> sender id
+  final FirebaseApp app = await Firebase.initializeApp(
+          options: FirebaseOptions(
+              projectId: "fir-app-95ec5",
+              appId: "1:745651411956:android:8cf9b4ed4ef86142d2f7a1",
+              apiKey: "AIzaSyDZUrmLGnQMxu7PlLy7dMva1tS1Y2ygO8I",
+              databaseURL: "https://fir-app-95ec5-default-rtdb.firebaseio.com/",
+              messagingSenderId: "745651411956"))
+      .whenComplete(() => log("main Completed"));
+
+  final FirebaseDatabase database = FirebaseDatabase(app: app);
+  runApp(MyApp(database: database));
 }
 
 class MyApp extends StatelessWidget {
+  MyApp({this.database});
+  final FirebaseDatabase database;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,13 +35,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Firebase App'),
+      home: MyHomePage(title: 'Firebase App', database: database),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  final FirebaseDatabase database;
+  MyHomePage({Key key, this.title, this.database}) : super(key: key);
 
   final String title;
 
@@ -42,10 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     ///` we just have to call this once ` used for firebase
-    Firebase.initializeApp().whenComplete(() {
-      print("Completed");
-      setState(() {});
-    });
+    //  Future<FirebaseApp> app=  Firebase.initializeApp(
+    //     options: FirebaseOptions(
+    //       databaseURL: "https://fir-app-95ec5-default-rtdb.firebaseio.com/"
+    //     )
+    //   ).whenComplete(() {
+    //     print("Completed");
+    //     setState(() {});
+    //   });
 
     //Google SignIn
     googleSignIn.onCurrentUserChanged
@@ -60,6 +82,20 @@ class _MyHomePageState extends State<MyHomePage> {
           _status = userName;
         });
       }
+    });
+
+    ///`init RealTimeDB` from rdb file
+    init(widget.database);
+    reference.onValue.listen((event) {
+      setState(() {
+        error = null;
+        counter = event.snapshot.value ?? 0;
+      });
+    }, onError: (e) {
+      final DatabaseError er = e;
+      setState(() {
+        error = er;
+      });
     });
   }
 
@@ -95,8 +131,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      // body: builAuthentication(),
-      body: TaskManager(),
+      body: builAuthentication(),
+      // body: TaskManager(),
     );
   }
 
@@ -107,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           SizedBox(
             height: 200,
-            child: Text(_status),
+            child: Text("$counter"),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -143,21 +179,33 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
                 padding: EdgeInsets.all(4),
-                onPressed: null,
-                child: Text("Up load text"),
+                onPressed: () async {
+                  var loggedIn = await ensureLoggedIn();
+                  log(loggedIn.toString());
+                },
+                child: Text("ensure loggedIN"),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                padding: EdgeInsets.all(4),
+                onPressed: increment,
+                child: Text("Increment"),
               ),
               SizedBox(
                 width: 10,
               ),
               RaisedButton(
-                onPressed: null,
-                child: Text("Download Text"),
+                onPressed: decrement,
+                child: Text("Decrement"),
               ),
             ],
           ),

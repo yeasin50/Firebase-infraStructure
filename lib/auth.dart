@@ -2,10 +2,18 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 FirebaseAuth auth = FirebaseAuth.instance;
+
+//ensure logIn before operation
+Future<bool> ensureLoggedIn() async {
+  var user = await auth.currentUser;
+  return user != null;
+}
 
 ///`Google Sign In`
 GoogleSignIn googleSignIn = GoogleSignIn(
@@ -34,7 +42,7 @@ Future<bool> signInAnon() async {
 Future<String> handleGetContact(currentUser) async {
   log("Loading contact info.......");
   //Google SignIn, set value on initState
- 
+
   final http.Response response = await http.get(
     'https://people.googleapis.com/v1/people/me/connections'
     '?requestMask.includeField=person.names',

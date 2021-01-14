@@ -27,7 +27,7 @@ just follow the given link or [visit here]( https://console.developers.google.co
 ### Storage
 [Flutter FireStore Storage](https://pub.dev/packages/firebase_storage/example)
 
-
+## ⚠ I'm not focusing on state-management
 ---------
 ## Getting Started
 

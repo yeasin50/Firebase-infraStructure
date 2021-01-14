@@ -24,11 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
-  firebase_auth: ^0.18.4+1
-  firebase_core: ^0.5.3
-
-  firebase_storage: any
-  
+  firebase_auth: ^0.20.0+1
+  firebase_core: ^0.7.0
+  firebase_database: ^6.0.0
+  firebase_storage: ^7.0.0
   google_sign_in: ^4.5.9
   http: ^0.12.2
   image_gallery_saver: ^1.6.7
