@@ -209,6 +209,75 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                padding: EdgeInsets.all(4),
+                onPressed: () {
+                  addData("user");
+                },
+                child: Text("Add data"),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              RaisedButton(
+                onPressed: () {
+                  removeData("user");
+                },
+                child: Text("removeData"),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                padding: EdgeInsets.all(4),
+                onPressed: () {
+                  setData("user", "key 2", "value set");
+                },
+                child: Text("Set Data"),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              RaisedButton(
+                onPressed: () {
+                  updateData("user", "key 2", "val updated");
+                },
+                child: Text("Update Data"),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                padding: EdgeInsets.all(4),
+                onPressed: () async {
+                  String data = await findData("user", "key 2");
+                  log("data $data");
+                },
+                child: Text("Find Data"),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  String value = await findRange("user", "key 2");
+                  log("value $value");
+                },
+                child: Text("Find DataRange"),
+              ),
+            ],
+          ),
+          RaisedButton(
+            onPressed: separateKEY,
+            child: Text("Separate keys and Vals"),
+          ),
         ],
       ),
     );

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -30,8 +32,8 @@ Future<int> getCounter() async {
   return val;
 }
 
-Future<int> getCount() async{
-  return  await getCounter();
+Future<int> getCount() async {
+  return await getCounter();
 }
 
 Future<Null> setCounter(int value) async {
@@ -59,4 +61,85 @@ void increment() async {
 void decrement() async {
   int value = counter -= 1;
   setCounter(value);
+}
+
+Future<Null> addData(String text) async {
+  DatabaseReference _ref;
+  _ref = await FirebaseDatabase.instance.reference().child("messages/$text");
+
+  for (int i = 0; i < 10; i++) {
+    //mapping
+    _ref.update(<String, String>{'key $i': 'val $i'});
+  }
+}
+
+Future<Null> removeData(String text) async {
+  DatabaseReference _ref;
+  _ref = FirebaseDatabase.instance.reference().child("messages/$text");
+  _ref.remove();
+}
+
+Future<Null> updateData(String text, String key, String value) async {
+  DatabaseReference _ref;
+  _ref = FirebaseDatabase.instance.reference().child("messages/$text");
+  _ref.update(<String, String>{key: value});
+}
+
+// set remove everything and set just this one
+Future<Null> setData(String text, String key, String value) async {
+  DatabaseReference _ref;
+  _ref = FirebaseDatabase.instance.reference().child("messages/$text");
+  _ref.set(<String, String>{key: value});
+}
+
+Future<String> findData(String user, String key) async {
+  DatabaseReference reference =
+      FirebaseDatabase.instance.reference().child("messages/$user");
+
+  String value;
+  Query query = reference.equalTo(value, key: key);
+  await query.once().then((dataSnapshot) {
+    value = dataSnapshot.value.toString();
+  });
+
+  return value;
+}
+
+Future<String> findRange(String user, String key) async {
+  DatabaseReference _messageRef;
+  _messageRef = FirebaseDatabase.instance.reference().child('messages/${user}');
+  String value;
+  Query query = _messageRef.endAt(value, key: key);
+  await query.once().then((DataSnapshot snapshot) {
+    value = snapshot.value.toString();
+  });
+
+  return value;
+}
+
+//separate Keys and values
+Future<Null> separateKEY() async {
+  DatabaseReference reference =
+      FirebaseDatabase.instance.reference().child("messages/user/");
+// FIXME:: get separated keys and values 👿👿👿
+
+  await reference.once().then((DataSnapshot snapshot) {
+    log(snapshot.value.keys[1].toString());
+  });
+
+  // Map<dynamic, dynamic> json = jsonDecode(key);
+  log("runTime>> ${json.runtimeType}");
+}
+
+// Returns a Pro created from JSON
+
+class Pro {
+  String uid, email;
+  Pro();
+  factory Pro.fromJson(Map<String, dynamic> json) {
+    Pro pro = Pro();
+
+    pro.uid = json['uid'];
+    pro.email = json['email'];
+  }
 }
